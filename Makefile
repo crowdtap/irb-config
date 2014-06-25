@@ -3,15 +3,19 @@ GEMS_NODEPS = commands rails-env-switcher rspec-console cucumber-console mongoid
 TARGETS = $(HOME)/.pryrc $(HOME)/.irbrc
 SHELL = /usr/bin/env bash
 CWD = $(shell pwd)
-RVM=$(shell ls -d {~/.,/usr/local/}rvm 2>/dev/null | head -1)
-RBENV=$(shell ls -d {~/.,/usr/local/,/opt/boxen/}rbenv 2>/dev/null | head -1)
+
+ifeq ($(RUBY),rvm)
+	RVM=$(shell ls -d {~/.,/usr/local/}rvm 2>/dev/null | head -1)
+else ifeq ($(RUBY),rbenv)
+  RBENV=$(shell ls -d {~/.,/usr/local/,/opt/boxen/}rbenv 2>/dev/null | head -1)
+endif
 
 ifneq ($(RVM),)
   RUBIES=$(shell ls ${RVM}/rubies | grep -v '^default$$')
 else ifneq ($(RBENV),)
   RUBIES=$(shell rbenv versions | sed 's/\*//g' | awk '{print $$1}' | grep -v system)
 else
-  $(error Please use rvm or rbenv)
+  $(error Please use RUBY=[rvm|rbenv])
 endif
 
 define check_file
