@@ -47,7 +47,6 @@ install: $(TARGETS)
 			rbenv rehash; \
 			gem install ${GEMS} --install-dir ${RBENV}/versions/$$RUBY/lib/ruby/gems/irb-config --no-ri --no-rdoc; \
 			gem install ${GEMS_NODEPS} --install-dir ${RBENV}/versions/$$RUBY/lib/ruby/gems/irb-config --ignore-dependencies --no-ri --no-rdoc; \
-			GEM_HOME=${RBENV}/versions/$$RUBY/lib/ruby/gems/irb-config gem cleanup; \
 		fi; \
 		echo; \
 	done
